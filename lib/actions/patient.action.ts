@@ -1,18 +1,18 @@
-import { Query,ID } from "node-appwrite";
-
+"use server"
+import { Query, ID } from "node-appwrite";
+import { parseStringify } from "../utils";
 import {
-    BUCKET_ID,
+    NEXT_PUBLIC_BUCKET_ID,
     DATABASE_ID,
-    ENDPOINT,
+    NEXT_PUBLIC_ENDPOINT,
     PATIENT_COLLECTION_ID,
     PROJECT_ID,
     databases,
     storage,
     users,
 } from "../appwrite.config";
-export const createUser = async (user: CreateUserParams) => {
+export async function createUser(user: CreateUserParams) {
     try {
-        // Create new user -> https://appwrite.io/docs/references/1.5.x/server-nodejs/users#create
         const newuser = await users.create(
             ID.unique(),
             user.email,
