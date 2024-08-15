@@ -1,7 +1,9 @@
 import { RegisterForm } from "@/components/forms/RegisterForm";
+import { getUser } from "@/lib/actions/patient.action";
 import Image from "next/image";
 
-const Register = () => {
+const Register = async ({ params: { userId } }: SearchParamProps) => {
+  const user = await getUser(userId);
   return (
     <div className="flex h-screen max-h-screen">
       <section className="remove-scrollbar container">
@@ -15,10 +17,10 @@ const Register = () => {
           />
 
           <RegisterForm
-          //    user={user}
+             user={user}
           />
 
-          <p className="copyright py-12">© 2024 CarePluse</p>
+          <p className="copyright py-12">© 2024 VitalView</p>
         </div>
       </section>
 
