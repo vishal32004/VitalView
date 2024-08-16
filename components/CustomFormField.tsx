@@ -17,6 +17,7 @@ import PhoneInput from "react-phone-number-input";
 import { E164Number } from "libphonenumber-js/core";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 
 interface CustomProps {
   control: Control<any>;
@@ -29,7 +30,7 @@ interface CustomProps {
   disabled?: boolean;
   dateFormat?: string;
   showTimeSelect?: boolean;
-  chiildren?: React.ReactNode;
+  children?: React.ReactNode;
   renderSkeleton?: (field: any) => React.ReactNode;
 }
 
@@ -41,7 +42,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
     iconAlt,
     showTimeSelect,
     dateFormat,
-    renderSkeleton
+    renderSkeleton,
   } = props;
 
   switch (fieldType) {
@@ -100,7 +101,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
               dateFormat={dateFormat ?? "MM/dd/yyyy"}
               showTimeSelect={showTimeSelect ?? false}
               timeInputLabel="Time:"
-              wrapperClassName="dare-picker"
+              wrapperClassName="date-picker p-5"
             />
           </FormControl>
         </div>
@@ -108,6 +109,22 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
 
     case FormFieldType.SKELETON:
       return renderSkeleton ? renderSkeleton(field) : null;
+
+    case FormFieldType.SELECT:
+      return (
+        <FormControl>
+          <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <FormControl>
+              <SelectTrigger className="shad-select-trigger">
+                <SelectValue placeholder={props.placeholder} />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent className="shad-select-content">
+              {props.children}
+            </SelectContent>
+          </Select>
+        </FormControl>
+      );
     default:
       break;
   }

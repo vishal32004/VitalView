@@ -12,8 +12,10 @@ import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.action";
 import { FormFieldType } from "./PatientForm";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { GenderOptions } from "@/constants";
+import { Doctors, GenderOptions } from "@/constants";
 import { Label } from "../ui/label";
+import { SelectItem } from "../ui/select";
+import Image from "next/image";
 
 export function RegisterForm({ user }: { user: User }) {
   const router = useRouter();
@@ -128,10 +130,89 @@ export function RegisterForm({ user }: { user: User }) {
             )}
           />
         </div>
-        <div className="flex flex-col gap-6 xl:flex-row"></div>
-        <div className="flex flex-col gap-6 xl:flex-row"></div>
-        <div className="flex flex-col gap-6 xl:flex-row"></div>
-        <div className="flex flex-col gap-6 xl:flex-row"></div>
+
+        <div className="flex flex-col gap-6 xl:flex-row">
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="address"
+            label="Address"
+            placeholder="New Delhi,India"
+          />
+
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="occupation"
+            label="Occupation"
+            placeholder="Teacher"
+          />
+        </div>
+        <div className="flex flex-col gap-6 xl:flex-row">
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="emergencyContactName"
+            label="Emergency Contact Name"
+            placeholder="Friend's Name "
+          />
+          <CustomFormField
+            fieldType={FormFieldType.PHONE_INPUT}
+            control={form.control}
+            name="emergencyContactPhone"
+            label="Emergency Contact Number"
+            placeholder="1234567890"
+          />
+        </div>
+
+        <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+            <h2 className="sub-header">Medical Information</h2>
+          </div>
+        </section>
+
+        <CustomFormField
+          fieldType={FormFieldType.SELECT}
+          control={form.control}
+          name="primaryPhysician"
+          label="Primary Physician"
+          placeholder="Select a Physician"
+        >
+          {Doctors.map((doctor, i) => (
+            <SelectItem key={doctor.name + i} value={doctor.name}>
+              <div className="flex cursor-pointer items-center gap-2">
+                <Image
+                  src={doctor.image}
+                  width={32}
+                  height={32}
+                  alt="doctor"
+                  className="rounded-full border border-dark-500"
+                />
+                <p>{doctor.name}</p>
+              </div>
+            </SelectItem>
+          ))}
+        </CustomFormField>
+
+        <div className="flex flex-col gap-6 xl:flex-row">
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="insuranceProvider"
+            label="Insurance Provider"
+            placeholder="LIC"
+          />
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="insurancePolicyNumber"
+            label="Insurance PolicyNumber"
+            placeholder="ABCS1234567890"
+          />
+        </div>
+        <div className="flex flex-col gap-6 xl:flex-row">
+        
+        </div>
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
     </Form>
